@@ -1,13 +1,11 @@
 $LOAD_PATH << '.'
 require 'rake'
 require 'rake/rdoctask'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 require 'lib/metric_fu'
 
 desc "Run all specs in spec directory"
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-end
+RSpec::Core::RakeTask.new(:spec)
 
 MetricFu::Configuration.run do |config|
   config.roodi    = config.roodi.merge(:roodi_config => 'config/roodi_config.yml')

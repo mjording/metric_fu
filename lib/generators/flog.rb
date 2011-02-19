@@ -12,7 +12,8 @@ module MetricFu
         directory = "." if directory=='./'
         dir_files = Dir.glob("#{directory}/**/*.rb")
         dir_files = remove_excluded_files(dir_files)
-        files += dir_files
+        dir_files = clean_hash_syntax(dir_files)
+        kfiles += dir_files
       end
       options = ::Flog.parse_options ["--all", "--details"]
 
@@ -24,6 +25,11 @@ module MetricFu
         puts 'running in jruby - flog tasks not available'
       end
     end
+    def clean_hash_syntax(paths)
+      paths.map { |f| f.gsub!(/(\w+):\s+/, '\1 =>') }
+    end
+
+
 
     def analyze
       @method_containers = {}
